@@ -45,7 +45,7 @@ App.getInitialProps = async (appContext) => {
         const cookies = cookie.parse(req.headers.cookie || '');
         if (cookies.auth) {
             try {
-                const decoded = verify(cookies.auth, process.env.JWT_SECRET);
+                verify(cookies.auth, process.env.JWT_SECRET);
                 // JWT is valid
             } catch (err) {
                 if(appContext.ctx.pathname === "/products") {

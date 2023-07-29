@@ -2,20 +2,20 @@
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import cookie from 'cookie';
-import User from "@/Models/User";
-import { getUserById } from "@/ApiStuff/UserApi";
+import {getUserByEmail, getUserById} from "@/ApiStuff/UserApi";
 
 export default async function login(req, res) {
     if (req.method === 'POST') {
         const { password } = req.body;
 
-        const user = await getUserById(req.body.IDuser)
+        const user = await getUserByEmail(req.body.email)
 
         if (user) {
             const passwordMatch = await compare(password, user.password);
             if (passwordMatch) {
                 const claims = { sub: user.IDuser, email: user.email };
-                const jwt = sign(claims, process.env.JWT_SECRET, { expiresIn: '1h' });
+                //const jwt = sign(claims, process.env.JWT_SECRET, { expiresIn: '1h' });
+                const jwt = sign(claims, "very_secret_key", { expiresIn: '1h' });
 
                 res.setHeader(
                     'Set-Cookie',
