@@ -13,6 +13,7 @@ import Header from "@/components/fragments/header";
 
 function App({ Component, pageProps }: AppProps) {
 
+    /*
     const [user, setUser] = useState<string | null>(null); // Typescript thing, used to be:
     // const [user, setUser] = useState(null);
     const router = useRouter();
@@ -26,6 +27,7 @@ function App({ Component, pageProps }: AppProps) {
             router.push('/login');
         }
     }, [router]);
+*/
 
     return (
       <>
@@ -36,7 +38,7 @@ function App({ Component, pageProps }: AppProps) {
       </>
     );
 }
-
+ /*
 App.getInitialProps = async (appContext) => {
     // check if user has a valid JWT token server-side
     const appProps = await AppImport.getInitialProps(appContext);
@@ -61,5 +63,7 @@ App.getInitialProps = async (appContext) => {
 
     return { ...appProps };
 };
+
+  */
 
 export default App;

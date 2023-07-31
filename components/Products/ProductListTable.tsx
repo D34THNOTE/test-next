@@ -1,7 +1,13 @@
 import ProductListTableRow from "@/components/Products/ProductListTableRow";
 import ProductModel from "@/Models/ProductModel";
+import {list} from "postcss";
 
 export default function ProductListTable({listOfProducts}: { listOfProducts: ProductModel[] } ) {
+
+    const productList = listOfProducts;
+
+    //TODO ERROR HANDLING IF LIST CAME EMPTY
+    console.log(productList);
 
     return (
         <table className="table-list">
@@ -16,7 +22,7 @@ export default function ProductListTable({listOfProducts}: { listOfProducts: Pro
             </tr>
             </thead>
             <tbody>
-            {listOfProducts.map(product =>
+            {productList.map(product =>
                 <ProductListTableRow productData={product} key={product.IDproduct} />
             )}
             </tbody>
