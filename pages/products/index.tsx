@@ -77,6 +77,7 @@ export default function ProductList( { user, products }: InferGetServerSideProps
 
 // Code from:
 // https://github.com/vvo/iron-session/blob/main/examples/next.js-typescript/pages/profile-ssr.tsx
+//TODO change const to function???
 export const getServerSideProps = withIronSessionSsr(async function ({
                                                                          req,
                                                                          res,
