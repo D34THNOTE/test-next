@@ -3,6 +3,7 @@ import Product from "@/Models/ProductModel";
 import Link from "next/link";
 import ProductListTable from "@/components/Products/ProductListTable";
 import { withIronSessionSsr } from 'iron-session/next';
+import {InferGetServerSidePropsType} from "next";
 
 
 
@@ -24,6 +25,8 @@ export async function getServerSideProps(): Promise<{ props: { products: Product
 
 */
 
+
+/*
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
     // Check if the user is authenticated
     const user = req.session.user;
@@ -50,8 +53,14 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
             secure: process.env.NODE_ENV === "production",
         },
     });
+*/
 
-export default function ProductList( {products}: Props ) {
+
+
+export default function ProductList( { user, products }: InferGetServerSidePropsType<typeof getServerSideProps> ) {
+
+    console.log(products);
+    console.log("User: " + user);
 
     return (
         <main>
@@ -65,3 +74,39 @@ export default function ProductList( {products}: Props ) {
     )
 }
 
+
+// Code from:
+// https://github.com/vvo/iron-session/blob/main/examples/next.js-typescript/pages/profile-ssr.tsx
+export const getServerSideProps = withIronSessionSsr(async function ({
+                                                                         req,
+                                                                         res,
+                                                                     }) {
+        const user = req.session.user;
+
+        if (user === undefined) {
+            res.setHeader("location", "/login");
+            res.statusCode = 302;
+            res.end();
+            return {
+                props: {
+                    user: { isLoggedIn: false, login: "", avatarUrl: "" }, //TODO this is a placeholder, idk what to do with this
+                },
+            };
+        }
+
+        const data = await getProducts();
+
+        return {
+            props: {
+                user: req.session.user,
+                products: data
+            },
+        };
+    },
+    { // these options can be moved to a different file in the future
+        password: "extremely_secret_password_must_be_at_least_32_characters_long_apparently" as string,
+        cookieName: "iron-session/examples/next.js",
+        cookieOptions: {
+            secure: process.env.NODE_ENV === "production",
+        },
+    });

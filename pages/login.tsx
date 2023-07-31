@@ -14,7 +14,7 @@ export default function Login() {
             body: JSON.stringify({ email, password }),
         });
         if (res.ok) {
-            router.push('/products');
+            router.push('/');
         } else {
             // handle error
         }

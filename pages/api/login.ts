@@ -10,6 +10,19 @@ export default async function login(req, res) {
 
         const user = await getUserByEmail(req.body.email)
 
+
+
+
+
+        //TODO IDK modify this using the link below ig
+        // https://github.com/vvo/iron-session/tree/main#nextjs-usage
+
+
+
+
+
+
+
         if (user) {
             const passwordMatch = await compare(password, user.password);
             if (passwordMatch) {
