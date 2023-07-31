@@ -11,56 +11,14 @@ type Props =  {
     products: Product[]
 }
 
-/*
-export async function getServerSideProps(): Promise<{ props: { products: ProductModel[] } }> {
-    const data = await getProducts();
 
-
-    return {
-        props: {
-            products: data
-        }
-    }
-}
-
-*/
-
-
-/*
-export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
-    // Check if the user is authenticated
-    const user = req.session.user;
-    if (!user) {
-        // If the user is not authenticated, redirect to the login page
-        res.writeHead(302, { Location: '/login' });
-        res.end();
-        return { props: {} };
-    }
-
-    // If the user is authenticated, fetch the products
-    const data = await getProducts();
-
-    return {
-        props: {
-            products: data
-        }
-    }
-},
-    { // these options can be moved to a different file in the future
-        password: "extremely_secret_password_must_be_at_least_32_characters_long_apparently" as string,
-        cookieName: "iron-session/examples/next.js",
-        cookieOptions: {
-            secure: process.env.NODE_ENV === "production",
-        },
-    });
-*/
 
 
 
 export default function ProductList( { user, products }: InferGetServerSidePropsType<typeof getServerSideProps> ) {
 
     console.log(products);
-    console.log("User: " + user);
+    console.log("User(in ProductList): " + user);
 
     return (
         <main>
@@ -84,6 +42,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
                                                                      }) {
         const user = req.session.user;
 
+        console.log("User(in getServerSideProps): " + user);
+
         if (user === undefined) {
             res.setHeader("location", "/login");
             res.statusCode = 302;
@@ -105,7 +65,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
         };
     },
     { // these options can be moved to a different file in the future
-        password: "extremely_secret_password_must_be_at_least_32_characters_long_apparently" as string,
+        password: "complex_password_at_least_32_characters_long" as string, // actually idk if it has to be the same as in login.ts
         cookieName: "iron-session/examples/next.js",
         cookieOptions: {
             secure: process.env.NODE_ENV === "production",

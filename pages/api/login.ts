@@ -1,45 +1,20 @@
-// pages/api/login.js
 import { compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
-import cookie from 'cookie';
-import {getUserByEmail, getUserById} from "@/ApiStuff/UserApi";
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { getUserByEmail } from '@/ApiStuff/UserApi';
 
-export default async function login(req, res) {
+async function login(req, res) {
     if (req.method === 'POST') {
         const { password } = req.body;
-
-        const user = await getUserByEmail(req.body.email)
-
-
-
-
-
-        //TODO IDK modify this using the link below ig
-        // https://github.com/vvo/iron-session/tree/main#nextjs-usage
-
-
-
-
-
-
+        const user = await getUserByEmail(req.body.email);
 
         if (user) {
             const passwordMatch = await compare(password, user.password);
             if (passwordMatch) {
-                const claims = { sub: user.IDuser, email: user.email };
-                //const jwt = sign(claims, process.env.JWT_SECRET, { expiresIn: '1h' });
-                const jwt = sign(claims, "very_secret_key", { expiresIn: '1h' });
+                // Store information about the user's authentication status in the session
+                //req.session.set('user', { id: user.IDuser, email: user.email });
 
-                res.setHeader(
-                    'Set-Cookie',
-                    cookie.serialize('auth', jwt, {
-                        httpOnly: true, // supposed to prevent cross-site scripting
-                        secure: process.env.NODE_ENV !== 'development', // send over HTTPS only if NODE_ENV is not equal to "development"
-                        sameSite: 'strict',
-                        maxAge: 3600, // time until it expires, in seconds
-                        path: '/', // need to read about this more
-                    })
-                );
+                req.session.user =  { id: user.IDuser, email: user.email };
+                await req.session.save();
 
                 res.status(200).json({ message: 'Logged in' });
             } else {
@@ -53,3 +28,11 @@ export default async function login(req, res) {
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }
+
+export default withIronSessionApiRoute(login, {
+    cookieName: 'MY_APP_COOKIE',
+    password: 'complex_password_at_least_32_characters_long',
+    cookieOptions: {
+        secure: process.env.NODE_ENV === 'production',
+    },
+});

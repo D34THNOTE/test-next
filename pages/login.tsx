@@ -17,6 +17,7 @@ export default function Login() {
             router.push('/');
         } else {
             // handle error
+            console.log("THERE WAS AN ERROR IN login.tsx FILE BUT IDK WHAT BECAUSE I AM WRITING THIS IN AN \"ELSE\" SO THERE IS NO ERROR TO DISPLAY");
         }
     };
 
