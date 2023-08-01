@@ -4,6 +4,7 @@ import Link from "next/link";
 import ProductListTable from "@/components/Products/ProductListTable";
 import { withIronSessionSsr } from 'iron-session/next';
 import {InferGetServerSidePropsType} from "next";
+import {withSessionSsr} from "@/config/withSession";
 
 
 
@@ -36,10 +37,7 @@ export default function ProductList( { user, products }: InferGetServerSideProps
 // Code from:
 // https://github.com/vvo/iron-session/blob/main/examples/next.js-typescript/pages/profile-ssr.tsx
 //TODO change const to function???
-export const getServerSideProps = withIronSessionSsr(async function ({
-                                                                         req,
-                                                                         res,
-                                                                     }) {
+export const getServerSideProps = withSessionSsr(async function ({ req, res, }) {
         const user = req.session.user;
 
         console.log("User(in getServerSideProps): " + user);
@@ -63,11 +61,5 @@ export const getServerSideProps = withIronSessionSsr(async function ({
                 products: data
             },
         };
-    },
-    { // these options can be moved to a different file in the future
-        password: "complex_password_at_least_32_characters_long" as string, // actually idk if it has to be the same as in login.ts
-        cookieName: "iron-session/examples/next.js",
-        cookieOptions: {
-            secure: process.env.NODE_ENV === "production",
-        },
-    });
+    }
+    );

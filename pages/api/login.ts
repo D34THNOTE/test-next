@@ -1,6 +1,6 @@
 import { compare } from 'bcrypt';
-import { withIronSessionApiRoute } from 'iron-session/next';
 import { getUserByEmail } from '@/ApiStuff/UserApi';
+import { withSessionRoute } from "@/config/withSession";
 
 async function login(req, res) {
     if (req.method === 'POST') {
@@ -13,7 +13,7 @@ async function login(req, res) {
                 // Store information about the user's authentication status in the session
                 //req.session.set('user', { id: user.IDuser, email: user.email });
 
-                req.session.user =  { id: user.IDuser, email: user.email };
+                req.session.user =  { id: user.IDuser, email: user.email, isAuthorized: true };
                 await req.session.save();
 
                 res.status(200).json({ message: 'Logged in' });
@@ -29,10 +29,4 @@ async function login(req, res) {
     }
 }
 
-export default withIronSessionApiRoute(login, {
-    cookieName: 'MY_APP_COOKIE',
-    password: 'complex_password_at_least_32_characters_long',
-    cookieOptions: {
-        secure: process.env.NODE_ENV === 'production',
-    },
-});
+export default withSessionRoute(login);
