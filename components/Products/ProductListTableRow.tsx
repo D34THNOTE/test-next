@@ -2,8 +2,10 @@ import Link from "next/link";
 import {formatDate} from "@/helpers/formatDate";
 
 
-export default function ProductListTableRow( { productData } ) {
+export default function ProductListTableRow( { productData }: any ) {
     const product = productData;
+
+    console.log("ListTableRow console log");
 
     return (
         <tr key={product.IDproduct}>

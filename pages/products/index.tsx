@@ -6,19 +6,12 @@ import { withIronSessionSsr } from 'iron-session/next';
 import {InferGetServerSidePropsType} from "next";
 import {withSessionSsr} from "@/config/withSession";
 
-
-
 type Props =  {
     products: Product[]
 }
 
-
-
-
-
 export default function ProductList( { user, products }: InferGetServerSidePropsType<typeof getServerSideProps> ) {
 
-    console.log(products);
     console.log("User(in ProductList): " + user);
 
     return (
@@ -34,32 +27,29 @@ export default function ProductList( { user, products }: InferGetServerSideProps
 }
 
 
-// Code from:
-// https://github.com/vvo/iron-session/blob/main/examples/next.js-typescript/pages/profile-ssr.tsx
-//TODO change const to function???
+//TODO I am really not sure if this is getting rendered server-side based on console.log outputs
+// when I go to the Products page only the console.log in getServerSideProps triggers,
+// BUT on subsequent refreshes it prints everything server-side and everything(except for the server-side method) client-side
 export const getServerSideProps = withSessionSsr(async function ({ req, res, }) {
-        const user = req.session.user;
+    const user = req.session.user;
 
-        console.log("User(in getServerSideProps): " + user);
+    console.log("User(in getServerSideProps): " + user);
 
-        if (user === undefined) {
-            res.setHeader("location", "/login");
-            res.statusCode = 302;
-            res.end();
-            return {
-                props: {
-                    user: { isLoggedIn: false, login: "", avatarUrl: "" }, //TODO this is a placeholder, idk what to do with this
-                },
-            };
-        }
-
-        const data = await getProducts();
-
+    if (user === undefined) {
         return {
-            props: {
-                user: req.session.user,
-                products: data
+            redirect: {
+                destination: '/login',
+                permanent: false,
             },
         };
     }
-    );
+
+    const data = await getProducts();
+
+    return {
+        props: {
+            user: req.session.user,
+            products: data
+        },
+    };
+});

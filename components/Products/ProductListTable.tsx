@@ -7,7 +7,7 @@ export default function ProductListTable({listOfProducts}: { listOfProducts: Pro
     const productList = listOfProducts;
 
     //TODO ERROR HANDLING IF LIST CAME EMPTY
-    console.log(productList);
+    console.log("ProductListTable console log");
 
     return (
         <table className="table-list">
