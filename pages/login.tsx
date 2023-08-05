@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import {useAuth} from "@/Auth/authStuff";
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
+    const { refetch } = useAuth();
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -14,6 +17,7 @@ export default function Login() {
             body: JSON.stringify({ email, password }),
         });
         if (res.ok) {
+            refetch();
             router.push('/');
         } else {
             // handle error

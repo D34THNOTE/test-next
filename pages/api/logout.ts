@@ -1,8 +1,3 @@
-/*
-
-FROM BING CHAT
-
-
 import { withSessionRoute } from "@/config/withSession";
 
 async function logout(req, res) {
@@ -17,7 +12,3 @@ async function logout(req, res) {
 }
 
 export default withSessionRoute(logout);
-
-
-
- */

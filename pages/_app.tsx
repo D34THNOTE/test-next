@@ -5,14 +5,17 @@ import type { AppProps } from 'next/app'
 import Navigation from "@/components/fragments/navigation";
 import Footer from "@/components/fragments/footer";
 import Header from "@/components/fragments/header";
+import {AuthProvider} from "@/Auth/authStuff";
 
 function App({ Component, pageProps }: AppProps) {
     return (
       <>
-          <Header />
-          <Navigation />
-          <Component {...pageProps} />
-          <Footer />
+          <AuthProvider>
+              <Header />
+              <Navigation />
+              <Component {...pageProps} />
+              <Footer />
+          </AuthProvider>
       </>
     );
 }
