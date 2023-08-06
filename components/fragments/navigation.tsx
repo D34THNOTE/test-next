@@ -16,7 +16,7 @@ function Navigation() {
             <ul>
                 <li><Link href="/">Main page</Link></li>
                 <li><Link href="/products">Products</Link></li>
-                <li><Link href="/order">Orders</Link></li>
+                <li><Link href="/orders">Orders</Link></li>
                 <li><Link href="/orderedProducts">Ordered products</Link></li>
                 <li>
                     {isAuthenticated

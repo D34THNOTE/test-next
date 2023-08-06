@@ -1,6 +1,5 @@
 import ProductListTableRow from "@/components/Products/ProductListTableRow";
 import ProductModel from "@/Models/ProductModel";
-import {list} from "postcss";
 
 export default function ProductListTable({listOfProducts}: { listOfProducts: ProductModel[] } ) {
 

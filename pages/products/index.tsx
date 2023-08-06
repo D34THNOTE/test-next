@@ -1,14 +1,9 @@
 import { getProducts } from "@/ApiStuff/ProductModelApi";
-import Product from "@/Models/ProductModel";
 import Link from "next/link";
 import ProductListTable from "@/components/Products/ProductListTable";
-import { withIronSessionSsr } from 'iron-session/next';
 import {InferGetServerSidePropsType} from "next";
 import {withSessionSsr} from "@/config/withSession";
 
-type Props =  {
-    products: Product[]
-}
 
 export default function ProductList( { user, products }: InferGetServerSidePropsType<typeof getServerSideProps> ) {
 
