@@ -5,7 +5,7 @@ import {getOrders} from "@/ApiStuff/OrderApi";
 import OrderListTable from "@/components/Orders/OrderListTable";
 
 
-export default function OrderList( { orders } ): React.ReactElement {
+export default function OrderList( { orders } ) {
 
     console.log("OrderList print")
 
